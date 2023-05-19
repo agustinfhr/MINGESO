@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ProveedorRepository extends JpaRepository<ProveedorEntity, String>{
 
@@ -17,4 +19,5 @@ public interface ProveedorRepository extends JpaRepository<ProveedorEntity, Stri
 
     @Query("select e from ProveedorEntity e where e.codigo = :codigo")
     ProveedorEntity findByCodigo(@Param("codigo")String codigo);
+
 }

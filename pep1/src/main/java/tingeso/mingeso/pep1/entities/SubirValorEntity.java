@@ -8,18 +8,17 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "datas")
+@Table(name = "valores")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class SubirDataEntity {
+public class SubirValorEntity {
     @Id
     @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer ID;
-    private String fecha;
-    private String turno;
     private String proveedor;
-    private String kls_leche;
+    private String pct_grasa;
+    private String pct_solido_total;
 
 }

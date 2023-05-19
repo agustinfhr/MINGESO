@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>Informacion de Valores.csv
+  </title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fugaz+One&display=swap" rel="stylesheet">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    *{
+      font-family: sans-serif;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    html, body {
+      height: 100%;
+      margin: 0;
+      background-image: linear-gradient(to bottom, #e0e8ff, #5d8ec2);
+    }
+    .content-table{
+      border-collapse: collapse;
+      margin: 25px 0;
+      font-size: 0.9em;
+      min-width: 400px;
+      border-radius: 5px 5px 0 0;
+      overflow: hidden;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    }
+    .content-table thead tr{
+      background-color: #377bbd;
+      color: #ffffff;
+      text-align: left;
+      font-weight: bold;
+    }
+    .content-table th,
+    .content-table td{
+      padding: 12px 15px;
+    }
+    .content-table tbody tr {
+      background-color: rgba(255, 255, 255, 0.49);
+      border-bottom: 1px solid #dddddd;
+    }
+    .content-table tbody tr:nth-of-type(even){
+      background-color: #f3f3f3;
+    }
+    .content-table tbody tr:last-of-type{
+      border-bottom: 2px solid #377bbd;
+    }
+    .content-table tbody tr.active-row{
+      font-weight: bold;
+      color: #377bbd;
+    }
+    .header{
+      background-color: #ffffff;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      height: 85px;
+      padding: 5px 10%;
+    }
+    .header .logo{
+      margin-right: auto;
+      color: #2a3944;
+      font-family: 'Fugaz One',cursive;
+    }
+    .header .btn button{
+      margin-left: 20px;
+      font-weight: 700;
+      color: #1b3039;
+      padding: 9px 25px;
+      background: #eceff1;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease 0s;
+    }
+    .header .btn button:hover{
+      background-color: #377bbd;
+      color: #f1f1f1;
+      transform: scale(1.1);
+    }
+    .header .btn-2 button {
+      margin-left: 20px;
+      font-weight: 700;
+      color: #1b3039;
+      padding: 9px 25px;
+      background: #eceff1;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease 0s;
+    }
+    .header .btn-2 button:hover{
+      background-color: #377bbd;
+      color: #f1f1f1;
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+<body>
+<header class="header">
+  <div class="logo">
+    <h1>MilkStgo</h1>
+  </div>
+  <nav>
+  </nav>
+  <a class="btn" href="/"><button>Volver al menú principal</button></a>
+  <a class="btn-2" href="/fileValorUpload"><button>Cargar un nuevo .CSV</button></a>
+</header>
+<div align = "center" class = "container my-2">
+  <h1><b>Información de <Valores></Valores>.csv</b></h1>
+  <table border = "1" class = "content-table">
+    <thead>
+    <tr>
+      <th style = "color:white">Proveedor</th>
+      <th style = "color:white">%Grasa</th>
+      <th style = "color:white">%Solido Total</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="valor:${valores}">
+      <td th:text="${valor.proveedor}"></td>
+      <td th:text="${valor.pct_grasa}"></td>
+      <td th:text="${valor.pct_solido_total}"></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

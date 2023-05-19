@@ -1,7 +1,7 @@
 package tingeso.mingeso.pep1.services;
 
-import tingeso.mingeso.pep1.entities.SubirDataEntity;
-import tingeso.mingeso.pep1.repositories.SubirDataRepository;
+import tingeso.mingeso.pep1.entities.SubirValorEntity;
+import tingeso.mingeso.pep1.repositories.SubirValorRepository;
 import lombok.Generated;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,16 +19,15 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 @Service
-public class SubirDataService {
+public class SubirValorService {
 
     @Autowired
-    private SubirDataRepository dataRepository;
+    private SubirValorRepository valorRepository;
 
-    private final Logger logg = LoggerFactory.getLogger(SubirDataService.class);
+    private final Logger logg = LoggerFactory.getLogger(SubirValorService.class);
 
-    public ArrayList<SubirDataEntity> obtenerData(){
-        ArrayList<SubirDataEntity> datasByDateAsc = dataRepository.findAllOrderByDateAsc();
-        return datasByDateAsc;
+    public ArrayList<SubirValorEntity> obtenerValor(){
+        return (ArrayList<SubirValorEntity>) valorRepository.findAll();
     }
 
     @Generated
@@ -58,7 +57,7 @@ public class SubirDataService {
         String texto = "";
         BufferedReader bf = null;
         // Comenta o elimina la siguiente línea para no eliminar los registros previos
-        dataRepository.deleteAll();
+        valorRepository.deleteAll();
         try{
             bf = new BufferedReader(new FileReader(direccion));
             String temp = "";
@@ -69,7 +68,7 @@ public class SubirDataService {
                     count = 0;
                 }
                 else{
-                    guardarDataDB(bfRead.split(";")[0], bfRead.split(";")[1], bfRead.split(";")[2], bfRead.split(";")[3]);
+                    guardarValorDB(bfRead.split(";")[0], bfRead.split(";")[1], bfRead.split(";")[2]);
                     temp = temp + "\n" + bfRead;
                 }
             }
@@ -88,19 +87,18 @@ public class SubirDataService {
         }
     }
 
-    public void guardarData(SubirDataEntity data){
-        dataRepository.save(data);
+    public void guardarValor(SubirValorEntity valor){
+        valorRepository.save(valor);
     }
 
-    public void guardarDataDB(String fecha, String turno, String proveedor, String kls_leche){
-         SubirDataEntity newData = new SubirDataEntity();
-         newData.setFecha(fecha);
-         newData.setTurno(turno);
-         newData.setProveedor(proveedor);
-         newData.setKls_leche(kls_leche);
-         guardarData(newData);
+    public void guardarValorDB(String proveedor, String pct_grasa, String pct_solido_total){
+        SubirValorEntity newValor = new SubirValorEntity();
+        newValor.setProveedor(proveedor);
+        newValor.setPct_grasa(pct_grasa);
+        newValor.setPct_solido_total(pct_solido_total);
+        guardarValor(newValor);
     }
-    public void eliminarData(ArrayList<SubirDataEntity> datas){
-        dataRepository.deleteAll(datas);
+    public void eliminarValor(ArrayList<SubirValorEntity> valores){
+        valorRepository.deleteAll(valores);
     }
 }

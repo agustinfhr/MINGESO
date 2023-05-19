@@ -1,7 +1,7 @@
 package tingeso.mingeso.pep1.controllers;
 
-import tingeso.mingeso.pep1.entities.SubirDataEntity;
-import tingeso.mingeso.pep1.services.SubirDataService;
+import tingeso.mingeso.pep1.entities.SubirValorEntity;
+import tingeso.mingeso.pep1.services.SubirValorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,35 +16,35 @@ import java.util.ArrayList;
 
 @Controller
 @RequestMapping
-public class SubirDataController {
+public class SubirValorController {
 
     @Autowired
-    private SubirDataService subirData;
+    private SubirValorService subirValor;
 
-    @GetMapping("/fileUpload")
+    @GetMapping("/fileValorUpload")
     public String main() {
-        return "fileUpload";
+        return "fileValorUpload";
     }
 
-    @PostMapping("/fileUpload")
+    @PostMapping("/fileValorUpload")
     public String upload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
-        subirData.guardar(file);
+        subirValor.guardar(file);
         redirectAttributes.addFlashAttribute("mensaje", "¡Archivo cargado correctamente!");
 
         // Obtén el nombre del archivo cargado
         String uploadedFileName = file.getOriginalFilename();
 
         // Pasa el nombre del archivo al método leerCsv()
-        subirData.leerCsv(uploadedFileName);
+        subirValor.leerCsv(uploadedFileName);
 
-        return "redirect:/fileUpload";
+        return "redirect:/fileValorUpload";
     }
 
 
-    @GetMapping("/fileInformation")
+    @GetMapping("/fileValorInformation")
     public String listar(Model model) {
-        ArrayList<SubirDataEntity> datas = subirData.obtenerData();
-        model.addAttribute("datas", datas);
-        return "fileInformation";
+        ArrayList<SubirValorEntity> valores = subirValor.obtenerValor();
+        model.addAttribute("valores", valores);
+        return "fileValorInformation";
     }
 }

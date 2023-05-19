@@ -14,7 +14,7 @@
 
     <style>
         .custom-image {
-            max-width: 70%; /* Ajusta este valor para cambiar el tamaño de la imagen */
+            max-width: 90%; /* Ajusta este valor para cambiar el tamaño de la imagen */
         }
         .box-area{
             display: flex;
@@ -95,8 +95,7 @@
             <span class="text-dark" style="font-family: 'Fugaz One', cursive; font-size: 32px;">MilkStgo</span>
             <div>
                 <a href="#" class="text-dark">Inicio</a>
-                <a href="#" class="text-dark mx-3">Características</a>
-                <a href="#" class="text-dark">Precios</a>
+              
             </div>
         </div>
     </div>
@@ -112,7 +111,7 @@
             </div>
                 </a>
             <div class = "img-text">
-                <span class = "header-text"><strong>Cargar CSV</strong></span>
+                <span class = "header-text"><strong>Cargar Acopio</strong></span>
             </div>
         </div>
         <div class = "single-box">
@@ -124,7 +123,26 @@
                 <span class = "header-text"><strong>Ver Proveedores</strong></span>
             </div>
         </div>
+        <div class = "single-box">
+            <a href = "/fileValorUpload">
+                <div class = "img-area">
+                </div>
+            </a>
+            <div class = "img-text">
+                <span class = "header-text"><strong>Cargar Valores</strong></span>
+            </div>
+        </div>
+        <div class = "single-box">
+            <a href = "/lista-planilla">
+                <div class = "img-area">
+                </div>
+            </a>
+            <div class = "img-text">
+                <span class = "header-text"><strong>Planilla de Pagos</strong></span>
+            </div>
+        </div>
     </div>
+<u><b> <h2 th:text="${mensaje}"></h2></b></u>
 <h6 align = center style="color: white"> MTINGSW 2023</h6>
 </body>
 </html>
