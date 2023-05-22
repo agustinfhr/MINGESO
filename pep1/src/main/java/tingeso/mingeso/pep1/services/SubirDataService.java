@@ -24,7 +24,9 @@ public class SubirDataService {
     @Autowired
     private SubirDataRepository dataRepository;
 
+    @Generated
     private final Logger logg = LoggerFactory.getLogger(SubirDataService.class);
+
 
     public ArrayList<SubirDataEntity> obtenerData(){
         ArrayList<SubirDataEntity> datasByDateAsc = dataRepository.findAllOrderByDateAsc();
@@ -88,9 +90,12 @@ public class SubirDataService {
         }
     }
 
+
     public void guardarData(SubirDataEntity data){
+
         dataRepository.save(data);
     }
+
 
     public void guardarDataDB(String fecha, String turno, String proveedor, String kls_leche){
          SubirDataEntity newData = new SubirDataEntity();

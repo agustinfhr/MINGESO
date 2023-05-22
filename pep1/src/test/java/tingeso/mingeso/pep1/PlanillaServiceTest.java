@@ -42,15 +42,15 @@ public class PlanillaServiceTest {
 
         SubirValorEntity valor = new SubirValorEntity();
         valor.setPct_grasa("25");
-        int pago = planillaService.pagoPorGrasa("A", 100, valor, 0);
+        int pago = planillaService.pagoPorGrasa(100, valor, 0);
         assertEquals(8000, pago);
         valor.setPct_grasa("15");
-        pago = planillaService.pagoPorGrasa("A", 100, valor, 0);
+        pago = planillaService.pagoPorGrasa(100, valor, 0);
         assertEquals(3000, pago);
         valor.setPct_grasa("50");
-        pago = planillaService.pagoPorGrasa("A", 100, valor, 0);
+        pago = planillaService.pagoPorGrasa(100, valor, 0);
         assertEquals(12000, pago);
-        pago = planillaService.pagoPorGrasa("A", 100, valor, 1);
+        pago = planillaService.pagoPorGrasa(100, valor, 1);
         assertEquals(50, pago);
     }
 
@@ -60,18 +60,18 @@ public class PlanillaServiceTest {
 
         SubirValorEntity valor = new SubirValorEntity();
         valor.setPct_solido_total("6");
-        int pago = planillaService.pagoPorST("A", 100, valor, 0);
+        int pago = planillaService.pagoPorST(100, valor, 0);
         assertEquals(-13000, pago);
         valor.setPct_solido_total("10");
-        pago = planillaService.pagoPorST("A", 100, valor, 0);
+        pago = planillaService.pagoPorST(100, valor, 0);
         assertEquals(-9000, pago);
         valor.setPct_solido_total("20");
-        pago = planillaService.pagoPorST("A", 100, valor, 0);
+        pago = planillaService.pagoPorST(100, valor, 0);
         assertEquals(9500, pago);
         valor.setPct_solido_total("40");
-        pago = planillaService.pagoPorST("A", 100, valor, 0);
+        pago = planillaService.pagoPorST(100, valor, 0);
         assertEquals(15000, pago);
-        pago = planillaService.pagoPorST("A", 100, valor, 1);
+        pago = planillaService.pagoPorST(100, valor, 1);
         assertEquals(40, pago);
     }
 
@@ -91,105 +91,125 @@ public class PlanillaServiceTest {
     @Test
     void testVariacionLeche() {
 
-        int variacion = planillaService.variacionLeche(0, 0, 1000);
+        int variacion = planillaService.variacionLeche(0, 1000);
         assertEquals(0, variacion);
-        variacion = planillaService.variacionLeche(0, 500, 1000);
+        variacion = planillaService.variacionLeche(500, 1000);
         assertEquals(100, variacion);
-        variacion = planillaService.variacionLeche(0, 1000, 1500);
+        variacion = planillaService.variacionLeche(1000, 1500);
         assertEquals(50, variacion);
-        variacion = planillaService.variacionLeche(0, 1000, 500);
+        variacion = planillaService.variacionLeche(1000, 500);
         assertEquals(-50, variacion);
     }
 
     @Test
     void testVariacionGrasa() {
 
-        int variacion = planillaService.variacionGrasa(0, 0, 20);
+        int variacion = planillaService.variacionGrasa(0, 20);
         assertEquals(0, variacion);
-        variacion = planillaService.variacionGrasa(0, 10, 20);
+        variacion = planillaService.variacionGrasa(10, 20);
         assertEquals(100, variacion);
-        variacion = planillaService.variacionGrasa(0, 20, 30);
+        variacion = planillaService.variacionGrasa(20, 30);
         assertEquals(50, variacion);
-        variacion = planillaService.variacionGrasa(0, 20, 10);
+        variacion = planillaService.variacionGrasa(20, 10);
         assertEquals(-50, variacion);
     }
 
     @Test
     void testVariacionST() {
 
-        int variacion = planillaService.variacionST(0, 0, 30);
+        int variacion = planillaService.variacionST(0, 30);
         assertEquals(0, variacion);
-        variacion = planillaService.variacionST(0, 10, 20);
+        variacion = planillaService.variacionST(10, 20);
         assertEquals(100, variacion);
-        variacion = planillaService.variacionST(0, 20, 30);
+        variacion = planillaService.variacionST(20, 30);
         assertEquals(50, variacion);
-        variacion = planillaService.variacionST(0, 20, 10);
+        variacion = planillaService.variacionST(20, 10);
         assertEquals(-50, variacion);
     }
 
     @Test
     void testBonificacionFrec() {
 
-        int bonificacion = planillaService.bonificacionFrec(1, 1, 0, 10000, 10);
+        int bonificacion = planillaService.bonificacionFrec(1, 1,  10000, 10);
         assertEquals(2000, bonificacion);
-        bonificacion = planillaService.bonificacionFrec(1, 0, 0, 10000, 10);
+        bonificacion = planillaService.bonificacionFrec(1, 0,  10000, 10);
         assertEquals(1200, bonificacion);
-        bonificacion = planillaService.bonificacionFrec(0, 1, 0, 10000, 10);
+        bonificacion = planillaService.bonificacionFrec(0, 1,  10000, 10);
         assertEquals(800, bonificacion);
-        bonificacion = planillaService.bonificacionFrec(0, 0, 0, 10000, 10);
+        bonificacion = planillaService.bonificacionFrec(0, 0,  10000, 10);
         assertEquals(0, bonificacion);
-        bonificacion = planillaService.bonificacionFrec(1, 1, 0, 10000, 9);
+        bonificacion = planillaService.bonificacionFrec(1, 1,  10000, 9);
         assertEquals(0, bonificacion);
     }
 
     @Test
     void testVariacionNegativaLeche() {
 
-        int dctoVariacionLeche = planillaService.variacionNegativaLeche(-5, 0, 10000);
+        int dctoVariacionLeche = planillaService.variacionNegativaLeche(-5, 10000);
         assertEquals(0, dctoVariacionLeche);
-        dctoVariacionLeche = planillaService.variacionNegativaLeche(-20, 0, 10000);
+        dctoVariacionLeche = planillaService.variacionNegativaLeche(-20, 10000);
         assertEquals(700, dctoVariacionLeche);
-        dctoVariacionLeche = planillaService.variacionNegativaLeche(-30, 0, 10000);
+        dctoVariacionLeche = planillaService.variacionNegativaLeche(-30, 10000);
         assertEquals(1500, dctoVariacionLeche);
-        dctoVariacionLeche = planillaService.variacionNegativaLeche(-50, 0, 10000);
+        dctoVariacionLeche = planillaService.variacionNegativaLeche(-50, 10000);
         assertEquals(3000, dctoVariacionLeche);
     }
 
     @Test
     void testVariacionNegativaGrasa() {
 
-        int dctoVariacionGrasa = planillaService.variacionNegativaGrasa(-10, 0, 10000);
+        int dctoVariacionGrasa = planillaService.variacionNegativaGrasa(-10, 10000);
         assertEquals(0, dctoVariacionGrasa);
-        dctoVariacionGrasa = planillaService.variacionNegativaGrasa(-20, 0, 10000);
+        dctoVariacionGrasa = planillaService.variacionNegativaGrasa(-20, 10000);
         assertEquals(700, dctoVariacionGrasa);
-        dctoVariacionGrasa = planillaService.variacionNegativaGrasa(-30, 0, 10000);
+        dctoVariacionGrasa = planillaService.variacionNegativaGrasa(-30, 10000);
         assertEquals(1500, dctoVariacionGrasa);
-        dctoVariacionGrasa = planillaService.variacionNegativaGrasa(-50, 0, 10000);
+        dctoVariacionGrasa = planillaService.variacionNegativaGrasa(-50, 10000);
         assertEquals(3000, dctoVariacionGrasa);
     }
 
     @Test
     void testVariacionNegativaST() {
 
-        int dctoVariacionST = planillaService.variacionNegativaST(-5, 0, 10000);
+        int dctoVariacionST = planillaService.variacionNegativaST(-5, 10000);
         assertEquals(0, dctoVariacionST);
-        dctoVariacionST = planillaService.variacionNegativaST(-10, 0, 10000);
+        dctoVariacionST = planillaService.variacionNegativaST(-10, 10000);
         assertEquals(700, dctoVariacionST);
-        dctoVariacionST = planillaService.variacionNegativaST(-20, 0, 10000);
+        dctoVariacionST = planillaService.variacionNegativaST(-20, 10000);
         assertEquals(1500, dctoVariacionST);
-        dctoVariacionST = planillaService.variacionNegativaST(-40, 0, 10000);
+        dctoVariacionST = planillaService.variacionNegativaST(-40, 10000);
         assertEquals(3000, dctoVariacionST);
     }
 
     @Test
     void testImpuestoRetencion() {
 
-        int montoRetencion = planillaService.impuestoRetencion("Si", 0, 950000);
+        int montoRetencion = planillaService.impuestoRetencion("Si", 950000);
         assertEquals(123500, montoRetencion);
-        montoRetencion = planillaService.impuestoRetencion("No", 0, 1000000);
+        montoRetencion = planillaService.impuestoRetencion("No", 1000000);
         assertEquals(0, montoRetencion);
-        montoRetencion = planillaService.impuestoRetencion("Si", 0, 900000);
+        montoRetencion = planillaService.impuestoRetencion("Si", 900000);
         assertEquals(0, montoRetencion);
     }
 
+
+    @Test
+    void testImpuestoRetencionExacto() {
+        int montoRetencion = planillaService.impuestoRetencion("Si", 950000);
+        assertEquals(123500, montoRetencion);
+    }
+
+
+    @Test
+    void testImpuestoRetencionInferior() {
+        int montoRetencion = planillaService.impuestoRetencion("Si", 949999);
+        assertEquals(0, montoRetencion);
+    }
+
+
+    @Test
+    void testImpuestoRetencionSobre() {
+        int montoRetencion = planillaService.impuestoRetencion("Si", 950001);
+        assertEquals(123500, montoRetencion);
+    }
 }

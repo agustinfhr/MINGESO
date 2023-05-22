@@ -1,3 +1,3 @@
-INSERT INTO proveedores(codigo,nombre,categoria,retencion) VALUES ("01537", "QUISPE S. ALCIDES", "A", "No");
-INSERT INTO proveedores(codigo,nombre,categoria,retencion) VALUES ("02994", "BELLO R. PHILIP", "B", "Si");
-INSERT INTO proveedores(codigo,nombre,categoria,retencion) VALUES ("013312", "ROMAN A. PABLO", "C", "No");
+INSERT INTO proveedores(codigo,nombre,categoria,retencion) VALUES ("11111", "Proveedor1", "A", "No");
+INSERT INTO proveedores(codigo,nombre,categoria,retencion) VALUES ("22222", "Proveedor2", "B", "Si");
+INSERT INTO proveedores(codigo,nombre,categoria,retencion) VALUES ("33333", "Proveedor3", "C", "No");

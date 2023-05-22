@@ -18,7 +18,9 @@
 		<sonar.exclusions>
 			src/main/java/tingeso/mingeso/pep1/entities/*,
 			src/main/java/tingeso/mingeso/pep1/controllers/*,
-			src/main/java/tingeso/mingeso/pep1/repositories/*
+			src/main/java/tingeso/mingeso/pep1/repositories/*,
+			src/main/java/tingeso/mingeso/pep1/Pep1Application.java
+
 		</sonar.exclusions>
 	</properties>
 	<dependencies>

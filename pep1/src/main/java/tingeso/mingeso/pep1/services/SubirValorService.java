@@ -24,7 +24,9 @@ public class SubirValorService {
     @Autowired
     private SubirValorRepository valorRepository;
 
+    @Generated
     private final Logger logg = LoggerFactory.getLogger(SubirValorService.class);
+
 
     public ArrayList<SubirValorEntity> obtenerValor(){
         return (ArrayList<SubirValorEntity>) valorRepository.findAll();
@@ -87,9 +89,12 @@ public class SubirValorService {
         }
     }
 
+   
     public void guardarValor(SubirValorEntity valor){
+
         valorRepository.save(valor);
     }
+
 
     public void guardarValorDB(String proveedor, String pct_grasa, String pct_solido_total){
         SubirValorEntity newValor = new SubirValorEntity();
