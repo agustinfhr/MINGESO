@@ -1,6 +1,5 @@
 package tingeso.mingeso.pep1.services;
 
-import org.hibernate.boot.model.relational.internal.SqlStringGenerationContextImpl;
 import org.springframework.stereotype.Service;
 import tingeso.mingeso.pep1.entities.ProveedorEntity;
 import tingeso.mingeso.pep1.entities.PlanillaEntity;
@@ -8,28 +7,17 @@ import tingeso.mingeso.pep1.entities.SubirDataEntity;
 import tingeso.mingeso.pep1.entities.SubirValorEntity;
 import tingeso.mingeso.pep1.repositories.SubirDataRepository;
 import tingeso.mingeso.pep1.repositories.SubirValorRepository;
-import tingeso.mingeso.pep1.services.ProveedorService;
-import tingeso.mingeso.pep1.services.PlanillaService;
-import tingeso.mingeso.pep1.services.SubirDataService;
-import tingeso.mingeso.pep1.services.SubirValorService;
 import tingeso.mingeso.pep1.repositories.PlanillaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import java.util.ArrayList;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 @Service
 public class PlanillaService {
 
-    // ... (constructor e implementación de calcularPagoAcopioLeche) ...
     @Autowired
     private ProveedorService proveedorService;
-    @Autowired
-    private SubirDataService dataService;
-    @Autowired
-    private SubirValorService valorService;
     @Autowired
     private SubirDataRepository dataRepository;
     @Autowired
@@ -38,7 +26,6 @@ public class PlanillaService {
     private SubirValorRepository valorRepository;
 
     public ArrayList<PlanillaEntity> calcularPlanillas(){
-        //planillaRepository.deleteAll();
 
         ArrayList<ProveedorEntity> proveedores = proveedorService.obtenerProveedores();
 
@@ -70,12 +57,8 @@ public class PlanillaService {
         int dd = 0;
         int mm = 0;
         int yyyy = 0;
-        int ddAux = 0;
-        int mmAux = 0;
-        int yyyyAux = 0;
         int saveFecha = 0;
         int quincenaFecha = 0;
-        int hayPlanillas = 0;
         int variacionLecheAnterior = 0;
         int variacionGrasaAnterior = 0;
         int variacionSolidosTotalesAnterior = 0;
@@ -98,17 +81,15 @@ public class PlanillaService {
 
             ArrayList<SubirDataEntity> datas = dataRepository.findAllByCodigoOrderByDateAsc(codigoProveedor);
             SubirValorEntity valor = valorRepository.findByProveedor(codigoProveedor);
-            PlanillaEntity planillaAnterior = new PlanillaEntity();
+
             if (planillaRepository.existsAny(codigoProveedor)) {
                 ArrayList<PlanillaEntity> planillas = planillaRepository.findByCodigo_proveedorOrderByQuincenaDesc(codigoProveedor);
                 PlanillaEntity firstPlanilla = planillas.get(0);
                 variacionLecheAnterior = firstPlanilla.getTotal_kls_leche();
                 variacionGrasaAnterior = firstPlanilla.getPct_grasa();
                 variacionSolidosTotalesAnterior = firstPlanilla.getPct_solidos_totales();
-                //hayPlanillas = 1;
+
             }
-
-
 
             for (SubirDataEntity data : datas) {
                 fechaAux = data.getFecha();
@@ -119,9 +100,7 @@ public class PlanillaService {
                 yyyy = localDate.getYear();
 
                 if (saveFecha == 0) {
-                    ddAux = dd;
-                    mmAux = mm;
-                    yyyyAux = yyyy;
+
                     saveFecha = 1; // Se guarda la primera fecha
                     if (dd <= 15) {
                         quincenaFecha = 15;
@@ -142,7 +121,6 @@ public class PlanillaService {
                     pagoSolidosTotales = pagoPorST(codigoProveedor, totalKlsLeche, valor, 0);
                     nroDiasEnvioLeche = nroDiasEnvioLeche + 1;
                     promDiarioKlsLeche = promklsLeche(totalKlsLeche, nroDiasEnvioLeche);
-
                     pctVariacionLeche = variacionLeche(pctVariacionLeche, variacionLecheAnterior, totalKlsLeche);
                     pctVariacionGrasa = variacionGrasa(pctVariacionGrasa, variacionGrasaAnterior, pctGrasa);
                     pctVariacionST = variacionST(pctVariacionST, variacionSolidosTotalesAnterior, pctSolidosTotales);
@@ -156,26 +134,16 @@ public class PlanillaService {
                     }
 
                     bonificacionFrecuencia = bonificacionFrec(manana, tarde, bonificacionFrecuencia, pagoLeche, nroDiasEnvioLeche);
-
                     pagoAcopioLeche = pagoLeche + pagoGrasa + pagoSolidosTotales + bonificacionFrecuencia;
-
                     dctoVariacionLeche = variacionNegativaLeche(pctVariacionLeche, dctoVariacionLeche, pagoAcopioLeche);
-
                     dctoVariacionGrasa = variacionNegativaGrasa(pctVariacionGrasa, dctoVariacionGrasa, pagoAcopioLeche);
-
                     dctoVariacionST = variacionNegativaST(pctVariacionST, dctoVariacionST, pagoAcopioLeche);
-
                     descuentos = dctoVariacionLeche + dctoVariacionGrasa + dctoVariacionST;
-
                     pagoTotal = pagoAcopioLeche - descuentos;
-
                     montoRetencion = impuestoRetencion(retencion, montoRetencion, pagoTotal);
-
                     montoFinal = pagoTotal - montoRetencion;
 
-
             }
-
 
                 PlanillaEntity planilla = new PlanillaEntity();
                 planilla.setQuincena(quincena);
@@ -214,7 +182,6 @@ public class PlanillaService {
                 pctVariacionLeche = 0;
                 pctVariacionGrasa = 0;
                 pctVariacionST = 0;
-                hayPlanillas = 0;
                 manana = 0;
                 tarde = 0;
                 bonificacionFrecuencia = 0;
@@ -233,33 +200,6 @@ public class PlanillaService {
         return null;
     }
 
-    public ArrayList<PlanillaEntity> calcularPagosAcopioLeche(ArrayList<ProveedorEntity> proveedores, ArrayList<SubirDataEntity> datas, ArrayList<SubirValorEntity> valores) {
-
-        for (ProveedorEntity proveedor : proveedores) {
-
-            // Obtén el código del proveedor
-            String codigoProveedor = proveedor.getCodigo();
-            String categoriaProveedor = proveedor.getCategoria();
-
-            //int klsLecheProveedor = klsLeche(codigoProveedor, datas);
-            //int pagoPorLecheProveedor = pagoPorLeche(categoriaProveedor, klsLecheProveedor);
-            //int pagoPorGrasaProveedor = pagoPorGrasa(codigoProveedor, klsLecheProveedor, valores);
-            //int pagoPorSolidosTotalesProveedor = pagoPorST(codigoProveedor, klsLecheProveedor, valores);
-            // Llama al método calcularPagoAcopioLeche para cada proveedor con los valores calculados
-            PlanillaEntity planilla = new PlanillaEntity();
-
-            // Asigna el código del proveedor a la planilla
-            planilla.setCodigo_proveedor(codigoProveedor);
-            //planilla.setPago_por_leche(pagoPorLecheProveedor);
-            //planilla.setPago_por_grasa(pagoPorGrasaProveedor);
-            //planilla.setPago_por_solidos_totales(pagoPorSolidosTotalesProveedor);
-            // Guarda la planilla en la base de datos
-            // Asumiendo que ya tienes un repositorio para la entidad Planilla
-
-            planillaRepository.save(planilla);
-        }
-        return null;
-    }
     public ArrayList<PlanillaEntity> obtenerPlanillas(){
         return (ArrayList<PlanillaEntity>) planillaRepository.findAll();
     }
@@ -334,8 +274,6 @@ public class PlanillaService {
 
     public int variacionLeche(Integer pctVariacionLeche, Integer variacionLecheAnterior, Integer totalKlsLeche){
 
-        //int totalKlsLecheAnterior = 0;
-        //totalKlsLecheAnterior = planilla.getTotal_kls_leche();
         if (variacionLecheAnterior == 0) {
             return 0;
         } else {
@@ -349,8 +287,6 @@ public class PlanillaService {
 
     public int variacionGrasa(Integer pctVariacionGrasa, Integer variacionGrasaAnterior, Integer pctGrasa){
 
-        //int totalKlsLecheAnterior = 0;
-        //totalKlsLecheAnterior = planilla.getTotal_kls_leche();
         if (variacionGrasaAnterior == 0) {
             return 0;
         } else {
@@ -364,8 +300,6 @@ public class PlanillaService {
 
     public int variacionST(Integer pctVariacionST, Integer variacionSolidosTotalesAnterior, Integer pctSolidosTotales){
 
-        //int totalKlsLecheAnterior = 0;
-        //totalKlsLecheAnterior = planilla.getTotal_kls_leche();
         if (variacionSolidosTotalesAnterior == 0) {
             return 0;
         } else {

@@ -98,7 +98,5 @@ public class SubirValorService {
         newValor.setPct_solido_total(pct_solido_total);
         guardarValor(newValor);
     }
-    public void eliminarValor(ArrayList<SubirValorEntity> valores){
-        valorRepository.deleteAll(valores);
-    }
+
 }

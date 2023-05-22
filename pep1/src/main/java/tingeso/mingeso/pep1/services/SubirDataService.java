@@ -100,7 +100,4 @@ public class SubirDataService {
          newData.setKls_leche(kls_leche);
          guardarData(newData);
     }
-    public void eliminarData(ArrayList<SubirDataEntity> datas){
-        dataRepository.deleteAll(datas);
-    }
 }

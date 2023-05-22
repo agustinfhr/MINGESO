@@ -1,5 +1,6 @@
 package tingeso.mingeso.pep1.services;
 
+import lombok.Generated;
 import tingeso.mingeso.pep1.entities.ProveedorEntity;
 import tingeso.mingeso.pep1.repositories.ProveedorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ public class ProveedorService {
     @Autowired
     ProveedorRepository proveedorRepository;
 
+    @Generated
     public void guardarProveedor(String codigo, String nombre, String categoria, String retencion){
         ProveedorEntity proveedor = new ProveedorEntity();
         proveedor.setCodigo(codigo);
@@ -21,15 +23,9 @@ public class ProveedorService {
         proveedor.setRetencion(retencion);
         proveedorRepository.save(proveedor);
     }
+    @Generated
     public ArrayList<ProveedorEntity> obtenerProveedores(){
         return (ArrayList<ProveedorEntity>) proveedorRepository.findAll();
     }
 
-    public String obtenerCategoria(String codigo){
-        return proveedorRepository.findCategory(codigo);
-    }
-
-    public ProveedorEntity findByCodigo(String codigo){
-        return proveedorRepository.findByCodigo(codigo);
-    }
 }

@@ -30,13 +30,8 @@ public class SubirValorController {
     public String upload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
         subirValor.guardar(file);
         redirectAttributes.addFlashAttribute("mensaje", "¡Archivo cargado correctamente!");
-
-        // Obtén el nombre del archivo cargado
         String uploadedFileName = file.getOriginalFilename();
-
-        // Pasa el nombre del archivo al método leerCsv()
         subirValor.leerCsv(uploadedFileName);
-
         return "redirect:/fileValorUpload";
     }
 
